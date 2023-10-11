@@ -1,0 +1,6 @@
+websockets~=11.0.3
+httpx[http2]~=0.23
+polling2~=0.5
+toml~=0.10.2
+prometheus-client~=0.16.0
+speechmatics-python~=1.9.0
