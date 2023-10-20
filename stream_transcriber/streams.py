@@ -277,10 +277,11 @@ async def load_stream(stream_name: str):
             )
             await force_close_connections(stream)
         sm_client.stop()
-        await process.kill()
-        await asr_task.cancel()
-        await stream_clone_task.cancel()
-        await send_audio_task.cancel()
+
+        process.kill()
+        asr_task.cancel()
+        stream_clone_task.cancel()
+        send_audio_task.cancel()
 
     LOGGER.info("Finished transcription", extra={"stream": stream_name})
 
