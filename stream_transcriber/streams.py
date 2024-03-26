@@ -1,6 +1,7 @@
 """
 Functions, variables and classes for handling the transcription streams
 """
+
 import asyncio
 import logging
 import subprocess
@@ -248,14 +249,14 @@ async def load_stream(stream_name: str):
             [log_task, send_audio_task, asr_task, stream_clone_task],
             return_when=asyncio.FIRST_EXCEPTION,
         )
-        async for done_routine in done:
+        for done_routine in done:
             if done_routine.exception() is not None:
                 LOGGER.error(
                     "Exception in return %s",
                     done_routine.exception(),
                     extra={"stream": stream_name},
                 )
-        async for pending_routine in pending:
+        for pending_routine in pending:
             pending_routine.cancel()
             if pending_routine.exception() is not None:
                 LOGGER.error(
