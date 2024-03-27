@@ -258,8 +258,10 @@ async def load_stream(stream_name: str):
             if done_routine.exception() is not None:
                 exception_name = type(done_routine.exception()).__name__
                 LOGGER.error(
-                    f"Exception for done routine: {done_routine.get_name()}",
-                    f" Exception ({exception_name}): {done_routine.exception()}",
+                    "Exception for done routine: %s. Exception (%s): %s",
+                    done_routine.get_name(),
+                    exception_name,
+                    done_routine.exception(),
                     extra={"stream": stream_name},
                 )
 
