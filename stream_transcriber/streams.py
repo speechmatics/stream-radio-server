@@ -241,27 +241,25 @@ async def load_stream(stream_name: str):
             "Starting transcription",
             extra={"stream": stream_name},
         )
-        asr_task = asyncio.create_task(sm_client.run(runtime_stream, conf, settings))
-        send_audio_task = asyncio.create_task(send_audio(broadcast_stream, stream_name))
-        log_task = asyncio.create_task(log_ffmpeg(process))
+        asr_task = asyncio.create_task(
+            sm_client.run(runtime_stream, conf, settings), name="asr_task"
+        )
+        send_audio_task = asyncio.create_task(
+            send_audio(broadcast_stream, stream_name), name="send_audio_task"
+        )
+        log_task = asyncio.create_task(log_ffmpeg(process), name="log_task")
 
-        done, pending = await asyncio.wait(
+        done, _ = await asyncio.wait(
             [log_task, send_audio_task, asr_task, stream_clone_task],
             return_when=asyncio.FIRST_EXCEPTION,
         )
+
         for done_routine in done:
             if done_routine.exception() is not None:
+                exception_name = type(done_routine.exception()).__name__
                 LOGGER.error(
-                    "Exception in return %s",
-                    done_routine.exception(),
-                    extra={"stream": stream_name},
-                )
-        for pending_routine in pending:
-            pending_routine.cancel()
-            if pending_routine.exception() is not None:
-                LOGGER.error(
-                    "Exception in return %s",
-                    pending_routine.exception(),
+                    f"Exception for done routine: {done_routine.get_name()}",
+                    f" Exception ({exception_name}): {done_routine.exception()}",
                     extra={"stream": stream_name},
                 )
 
