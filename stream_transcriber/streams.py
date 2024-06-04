@@ -73,6 +73,7 @@ SUPPORTED_STREAMS: Dict[str, SupportedStream] = {
     "german": SupportedStream(
         url=os.getenv(
             "STREAM_URL_DE",
+            # pylint: disable=locally-disabled, line-too-long
             "https://icecast.ndr.de/ndr/ndrinfo/niedersachsen/mp3/128/stream.mp3?1680704013057&aggregator=web",
         ),
         language="de",
