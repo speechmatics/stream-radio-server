@@ -82,7 +82,7 @@ SUPPORTED_STREAMS: Dict[str, SupportedStream] = {
         translation_languages=["en"],
     ),
     "spanish": SupportedStream(
-        url="https://22333.live.streamtheworld.com/CADENASERAAC_SC",
+        url="https://25493.live.streamtheworld.com/CADENASERAAC_SC",
         language="es",
         translation_languages=["en"],
     ),
