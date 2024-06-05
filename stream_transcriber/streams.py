@@ -64,30 +64,37 @@ class SupportedStream:
 
 SUPPORTED_STREAMS: Dict[str, SupportedStream] = {
     "english": SupportedStream(
-        url="https://stream.live.vc.bbcmedia.co.uk/bbc_world_service",
-        # pylint: disable=locally-disabled, line-too-long
-        # url="https://a.files.bbci.co.uk/media/live/manifesto/audio/simulcast/hls/uk/high/cfs/bbc_world_service.m3u8",
+        url=os.getenv(
+            "STREAM_URL_EN", "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service"
+        ),
         language="en",
         translation_languages=["fr", "de", "ja", "ko", "es"],
     ),
     "german": SupportedStream(
-        # pylint: disable=locally-disabled, line-too-long
-        url="https://icecast.ndr.de/ndr/ndrinfo/niedersachsen/mp3/128/stream.mp3?1680704013057&aggregator=web",
+        url=os.getenv(
+            "STREAM_URL_DE",
+            # pylint: disable=locally-disabled, line-too-long
+            "https://icecast.ndr.de/ndr/ndrinfo/niedersachsen/mp3/128/stream.mp3?1680704013057&aggregator=web",
+        ),
         language="de",
         translation_languages=["en"],
     ),
     "french": SupportedStream(
-        url="https://icecast.radiofrance.fr/franceinter-midfi.mp3",
+        url=os.getenv(
+            "STREAM_URL_FR", "https://icecast.radiofrance.fr/franceinter-midfi.mp3"
+        ),
         language="fr",
         translation_languages=["en"],
     ),
     "spanish": SupportedStream(
-        url="https://25493.live.streamtheworld.com/CADENASERAAC_SC",
+        url=os.getenv(
+            "STREAM_URL_ES", "https://25493.live.streamtheworld.com/CADENASERAAC_SC"
+        ),
         language="es",
         translation_languages=["en"],
     ),
     "korean": SupportedStream(
-        url="http://fmt01.egihosting.com:9468/",
+        url=os.getenv("STREAM_URL_KO", "http://fmt01.egihosting.com:9468/"),
         language="ko",
         translation_languages=["en"],
     ),
