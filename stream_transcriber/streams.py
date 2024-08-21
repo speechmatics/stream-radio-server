@@ -42,7 +42,7 @@ ENABLE_TRANSLATION_PARTIALS = os.getenv(
     "SM_ENABLE_TRANSLATION_PARTIALS", "False"
 ).lower() in ("true", "1", "t")
 
-MAX_DELAY = int(os.getenv("SM_MAX_DELAY", "3"))
+MAX_DELAY = float(os.getenv("SM_MAX_DELAY", "1.5"))
 
 FRAME_RATE = 16000
 FFMPEG_OUTPUT_FORMAT = "f32le"
