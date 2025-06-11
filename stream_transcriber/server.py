@@ -189,6 +189,7 @@ if __name__ == "__main__":
     formatter = ExtraFormatter()
     handler.setFormatter(formatter)
     LOGGER.setLevel(os.getenv("LOG_LEVEL", "debug").upper())
+    logging.getLogger("websockets").setLevel(logging.CRITICAL)
 
     # Start server for exposing metrics
     start_http_server(8000)
