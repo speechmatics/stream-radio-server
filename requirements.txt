@@ -4,3 +4,4 @@ polling2~=0.5
 toml~=0.10.2
 prometheus-client~=0.16.0
 speechmatics-python~=4.0.0
+anyio>=4.14.2
