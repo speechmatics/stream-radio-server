@@ -1,11 +1,11 @@
-FROM python:3.12-alpine AS builder
+FROM python:3.12.16-alpine3.24 AS builder
 RUN mkdir /install
 WORKDIR /install
 COPY requirements.txt /requirements.txt
 RUN pip install --prefix="/install" -r /requirements.txt
 
 
-FROM python:3.12-alpine AS production
+FROM python:3.12.16-alpine3.24 AS production
 RUN apk upgrade -U && apk add ffmpeg
 COPY --from=builder /install /usr/local
 COPY ./stream_transcriber /stream_transcriber
