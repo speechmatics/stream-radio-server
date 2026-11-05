@@ -4,6 +4,7 @@ Main server entry point
 
 import asyncio
 import datetime
+from http import HTTPStatus
 import logging
 import json
 import os
@@ -133,9 +134,29 @@ async def main(port):
     loop = asyncio.get_running_loop()
     stop = loop.create_future()
     loop.add_signal_handler(signal.SIGTERM, stop.set_result, None)
-    # pylint: disable=locally-disabled, no-member
-    async with websockets.serve(ws_handler, "0.0.0.0", port):
+    async with create_server("0.0.0.0", port):
         await stop  # Wait for SIGTERM
+
+
+def process_request(connection, request):
+    """
+    Answer plain HTTP requests (no websocket upgrade) with 200 OK.
+
+    Health probes such as Azure Traffic Manager's send plain HTTP requests. Without
+    this, websockets rejects them with 426 and logs "opening handshake failed" as an
+    error for every probe.
+    """
+    if "websocket" not in request.headers.get("Upgrade", "").lower():
+        return connection.respond(HTTPStatus.OK, "OK\n")
+    return None
+
+
+def create_server(host, port):
+    """
+    Create the websocket server
+    """
+    # pylint: disable=locally-disabled, no-member
+    return websockets.serve(ws_handler, host, port, process_request=process_request)
 
 
 class ExtraFormatter(logging.Formatter):
